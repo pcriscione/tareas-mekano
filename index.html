@@ -26,6 +26,7 @@
     .pb:hover{border-color:var(--ac);color:var(--tx)}
     .msg{font-size:12px;font-family:'DM Mono',monospace;margin-top:10px;min-height:18px;line-height:1.6;padding:0 4px}
     .msg.e{color:#FCA5A5}.msg.ok{color:var(--gr)}.msg.i{color:var(--tx3)}
+    /* Modal setup faceid */
     .overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);display:flex;align-items:center;justify-content:center;z-index:999;padding:20px;backdrop-filter:blur(4px)}
     .overlay.hide{display:none}
     .modal{background:var(--sur);border:1px solid var(--b2);border-radius:14px;padding:28px 24px;width:100%;max-width:320px;text-align:center}
@@ -37,6 +38,12 @@
     .btn-cancel{background:none;border:1px solid var(--b2);color:var(--tx3);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;-webkit-tap-highlight-color:transparent;margin-top:4px;width:100%}
     .btn-cancel:hover{border-color:var(--rd);color:var(--rd)}
     .modal-msg{font-size:12px;font-family:'DM Mono',monospace;color:#FCA5A5;margin-top:8px;min-height:16px}
+    /* Modal confirmar tarea por voz */
+    .vmodal-fields{display:flex;flex-direction:column;gap:8px;margin-bottom:16px;text-align:left}
+    .vmodal-label{font-size:11px;font-family:'DM Mono',monospace;color:var(--tx3);margin-bottom:3px;text-transform:uppercase;letter-spacing:1px}
+    .vmodal-actions{display:flex;gap:8px}
+    .vmodal-actions .btn-ok{flex:1}
+    .vmodal-actions .btn-cancel{margin-top:0;width:auto;flex:1}
     #app{display:none}
     .hdr{background:var(--sur);border-bottom:1px solid var(--b);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
     .hl{display:flex;align-items:center;gap:10px}
@@ -56,19 +63,15 @@
     @media(max-width:600px){.fc{max-width:100%;flex:1 1 100%}.fr{flex-direction:column}.ab{width:100%}}
     .ab{background:var(--ac);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
     .ab:disabled{background:var(--b2);color:var(--tx3);cursor:not-allowed}
-
     /* Barra de voz */
-    .voice-bar{background:var(--sur);border-bottom:1px solid var(--b);padding:10px 24px;display:flex;align-items:center;gap:12px}
-    .mic-btn{width:40px;height:40px;border-radius:50%;border:none;cursor:pointer;background:var(--sur2);color:var(--tx2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
-    .mic-btn:hover{background:var(--sur3)}
-    .mic-btn.listening{background:var(--rd);color:#fff;animation:mic-pulse 1s infinite}
-    .mic-btn.processing{background:var(--ac);color:#fff}
-    @keyframes mic-pulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
-    .voice-text{flex:1;font-size:13px;color:var(--tx3);font-family:'DM Mono',monospace;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-    .voice-text.active{color:var(--tx)}
-    .voice-text.ok{color:var(--gr)}
-    .voice-text.err{color:#FCA5A5}
-
+    .voice-bar{background:var(--sur);border-bottom:1px solid var(--b);padding:10px 16px;display:flex;align-items:center;gap:12px}
+    .mic-btn{width:42px;height:42px;border-radius:50%;border:none;cursor:pointer;background:var(--sur2);color:var(--tx2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .mic-btn.listening{background:var(--rd);color:#fff;animation:mpulse 1s infinite}
+    @keyframes mpulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.4)}50%{box-shadow:0 0 0 8px rgba(239,68,68,0)}}
+    .voice-info{flex:1;min-width:0}
+    .voice-status{font-size:12px;font-family:'DM Mono',monospace;color:var(--tx3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .voice-status.active{color:var(--tx)}.voice-status.ok{color:var(--gr)}.voice-status.err{color:#FCA5A5}
+    .voice-hint{font-size:11px;color:var(--tx3);margin-top:2px;line-height:1.4}
     .ft{padding:16px 24px 0;display:flex;gap:2px;border-bottom:1px solid var(--b)}
     .tab{padding:8px 16px;border-radius:6px 6px 0 0;font-size:13px;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
     .tab.on{color:var(--tx);font-weight:600;border-bottom-color:var(--ac);background:var(--sur2)}
@@ -89,7 +92,7 @@
     .ld{text-align:center;padding:60px;color:var(--tx3);font-family:'DM Mono',monospace;font-size:13px}
     @keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}.pu{animation:pu 1.2s infinite}
     .eb{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#FCA5A5;padding:10px 24px;font-size:13px;font-family:'DM Mono',monospace;display:none}.eb.on{display:block}
-    @media(max-width:600px){.hdr{padding:12px 16px}.bs{display:none}.tl{padding:8px 12px 60px}.ft{padding:12px 12px 0}.fw{padding:12px 16px}.dd{display:none}.voice-bar{padding:10px 16px}}
+    @media(max-width:600px){.hdr{padding:12px 16px}.bs{display:none}.tl{padding:8px 12px 60px}.ft{padding:12px 12px 0}.fw{padding:12px 16px}.dd{display:none}}
   </style>
 </head>
 <body>
@@ -105,6 +108,29 @@
     </div>
     <div class="modal-msg" id="setupModalMsg"></div>
     <button class="btn-cancel" onclick="closeSetupModal()">Cancelar</button>
+  </div>
+</div>
+
+<!-- Modal: confirmar tarea dictada por voz -->
+<div class="overlay hide" id="voiceModal">
+  <div class="modal">
+    <div class="modal-title">Confirmar tarea</div>
+    <div class="modal-sub">Revisa y corrige si es necesario</div>
+    <div class="vmodal-fields">
+      <div>
+        <div class="vmodal-label">Cliente</div>
+        <input class="pi" id="vCliente" placeholder="Cliente" style="margin-bottom:0"/>
+      </div>
+      <div>
+        <div class="vmodal-label">Descripción</div>
+        <input class="pi" id="vDesc" placeholder="Descripción" style="margin-bottom:0"/>
+      </div>
+    </div>
+    <div class="vmodal-actions">
+      <button class="btn-cancel" onclick="closeVoiceModal()">Cancelar</button>
+      <button class="btn-ok" onclick="confirmVoiceTask()">✓ Guardar tarea</button>
+    </div>
+    <div class="modal-msg" id="voiceModalMsg"></div>
   </div>
 </div>
 
@@ -135,7 +161,6 @@
       <button class="ob" onclick="doOut()">salir</button>
     </div>
   </div>
-
   <div class="fw" id="fw">
     <div class="fr">
       <input class="fi fc" id="iC" placeholder="Cliente" maxlength="60"/>
@@ -146,10 +171,13 @@
 
   <!-- Barra de voz -->
   <div class="voice-bar">
-    <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Dictar tarea por voz">
+    <button class="mic-btn" id="micBtn" onclick="toggleMic()" title="Dictar tarea">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="8" y1="22" x2="16" y2="22"/></svg>
     </button>
-    <span class="voice-text" id="voiceText">Toca el micrófono y dicta una tarea…</span>
+    <div class="voice-info">
+      <div class="voice-status" id="voiceSt">Toca el micrófono para dictar una tarea</div>
+      <div class="voice-hint">Ej: "Banco Estado, revisar el contrato"</div>
+    </div>
   </div>
 
   <div class="eb" id="eb">⚠ Error de conexión.</div>
@@ -177,7 +205,7 @@ function doOut(){clearOk();showLogin();}
 function setMsg(t,c){const e=document.getElementById('fmsg');e.textContent=t;e.className='msg '+(c||'i');}
 function doPw(){const v=document.getElementById('pw').value;if(v===PW){document.getElementById('pmsg').textContent='';setOk();showApp();}else{document.getElementById('pmsg').textContent='✕ Contraseña incorrecta';document.getElementById('pw').value='';}}
 
-// ── MODAL SETUP ──
+// ── MODAL SETUP FACEID ──
 function openSetupModal(){document.getElementById('setupPw').value='';document.getElementById('setupModalMsg').textContent='';document.getElementById('setupModal').classList.remove('hide');setTimeout(()=>document.getElementById('setupPw').focus(),100);}
 function closeSetupModal(){document.getElementById('setupModal').classList.add('hide');}
 function confirmSetup(){const v=document.getElementById('setupPw').value;if(v!==PW){document.getElementById('setupModalMsg').textContent='✕ Contraseña incorrecta';document.getElementById('setupPw').value='';document.getElementById('setupPw').focus();return;}closeSetupModal();doSetup();}
@@ -191,92 +219,90 @@ function doFaceLogin(e){if(e)e.preventDefault();if(!window.PublicKeyCredential){
 // ── VOZ ──
 let recognition=null, isListening=false;
 
+function setSt(t,c){const e=document.getElementById('voiceSt');e.textContent=t;e.className='voice-status '+(c||'');}
+
+// Divide el texto dictado en cliente y descripción.
+// Estrategia: separar por la primera coma, punto y coma, o " para ".
+function parseVoice(text){
+  text=text.trim();
+  // Intentar separadores explícitos
+  const separators=[',',';',' para ',' con descripción ',' descripción '];
+  for(const sep of separators){
+    const idx=text.toLowerCase().indexOf(sep);
+    if(idx>0){
+      const cliente=text.substring(0,idx).trim();
+      let desc=text.substring(idx+sep.length).trim();
+      // Limpiar palabras iniciales comunes de la descripción
+      desc=desc.replace(/^(que |hay que |debe |se debe |tarea |la tarea )/i,'').trim();
+      if(cliente&&desc) return {cliente,desc};
+    }
+  }
+  // Sin separador claro: primera palabra = cliente, resto = descripción
+  const parts=text.split(' ');
+  if(parts.length>=2){
+    return {cliente:parts[0], desc:parts.slice(1).join(' ')};
+  }
+  return {cliente:text, desc:''};
+}
+
 function initSpeech(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!SR)return null;
   const r=new SR();
-  r.lang='es-CL';
-  r.continuous=false;
-  r.interimResults=true;
-  r.maxAlternatives=1;
-  r.onstart=()=>{
-    setVoice('Escuchando… habla ahora','active');
-    document.getElementById('micBtn').classList.add('listening');
-  };
+  r.lang='es-CL';r.continuous=false;r.interimResults=true;r.maxAlternatives=1;
+  r.onstart=()=>{setSt('Escuchando… habla ahora','active');document.getElementById('micBtn').classList.add('listening');};
   r.onresult=(ev)=>{
     const t=ev.results[0][0].transcript;
     const final=ev.results[0].isFinal;
-    setVoice((final?'':'…')+t, final?'active':'i');
-    if(final) processVoice(t);
+    setSt((final?'"':'"…')+t+'"',final?'active':'i');
+    if(final){stopMic();openVoiceModal(t);}
   };
-  r.onerror=(ev)=>{
-    if(ev.error==='no-speech')setVoice('No se detectó voz. Intenta de nuevo.','err');
-    else setVoice('Error de micrófono: '+ev.error,'err');
-    stopMic();
-  };
+  r.onerror=(ev)=>{setSt(ev.error==='no-speech'?'No se detectó voz. Intenta de nuevo.':'Error: '+ev.error,'err');stopMic();};
   r.onend=()=>stopMic();
   return r;
 }
 
-function setVoice(t,c){const e=document.getElementById('voiceText');e.textContent=t;e.className='voice-text '+(c||'');}
-
 function toggleMic(){
   if(isListening){stopMic();return;}
   if(!recognition)recognition=initSpeech();
-  if(!recognition){setVoice('Tu navegador no soporta dictado de voz','err');return;}
-  try{recognition.start();isListening=true;}
-  catch(e){setVoice('Error al iniciar micrófono','err');}
+  if(!recognition){setSt('Tu navegador no soporta dictado de voz','err');return;}
+  try{recognition.start();isListening=true;}catch(e){setSt('Error al iniciar micrófono','err');}
 }
 function stopMic(){
   isListening=false;
-  document.getElementById('micBtn').classList.remove('listening','processing');
+  document.getElementById('micBtn').classList.remove('listening');
   try{if(recognition)recognition.stop();}catch(e){}
 }
 
-async function processVoice(text){
-  document.getElementById('micBtn').classList.remove('listening');
-  document.getElementById('micBtn').classList.add('processing');
-  setVoice('Interpretando: "'+text+'"…','i');
-  try{
-    const resp=await fetch('https://api.anthropic.com/v1/messages',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'claude-sonnet-4-20250514',
-        max_tokens:200,
-        system:'Eres un asistente que extrae datos de instrucciones verbales para crear tareas. El usuario habla en español. Responde SOLO con JSON válido, sin texto adicional, sin markdown. Formato exacto: {"accion":"crear","cliente":"nombre del cliente","descripcion":"descripcion de la tarea"}. Si no puedes identificar claramente el cliente o la descripción, responde: {"accion":"error","mensaje":"No pude entender. Di por ejemplo: crea una tarea del cliente X con descripción Y"}',
-        messages:[{role:'user',content:text}]
-      })
-    });
-    const data=await resp.json();
-    const raw=data.content[0].text.trim();
-    const parsed=JSON.parse(raw);
-    if(parsed.accion==='crear'&&parsed.cliente&&parsed.descripcion){
-      await createTaskFromVoice(parsed.cliente,parsed.descripcion);
-    } else {
-      setVoice(parsed.mensaje||'No entendí. Intenta de nuevo.','err');
-      document.getElementById('micBtn').classList.remove('processing');
-    }
-  }catch(e){
-    setVoice('Error al procesar. Intenta de nuevo.','err');
-    document.getElementById('micBtn').classList.remove('processing');
-  }
+// Modal de confirmación de tarea dictada
+function openVoiceModal(text){
+  const {cliente,desc}=parseVoice(text);
+  document.getElementById('vCliente').value=cliente;
+  document.getElementById('vDesc').value=desc;
+  document.getElementById('voiceModalMsg').textContent='';
+  document.getElementById('voiceModal').classList.remove('hide');
+  // Foco en el campo vacío o en cliente
+  setTimeout(()=>{
+    if(!desc) document.getElementById('vDesc').focus();
+    else document.getElementById('vCliente').focus();
+  },100);
 }
-
-async function createTaskFromVoice(cliente,descripcion){
+function closeVoiceModal(){
+  document.getElementById('voiceModal').classList.add('hide');
+  setSt('Toca el micrófono para dictar una tarea','');
+}
+async function confirmVoiceTask(){
+  const c=document.getElementById('vCliente').value.trim();
+  const d=document.getElementById('vDesc').value.trim();
+  if(!c||!d){document.getElementById('voiceModalMsg').textContent='Completa ambos campos';return;}
+  document.getElementById('voiceModalMsg').textContent='Guardando…';
   try{
-    const n=await api('/rest/v1/tareas',{method:'POST',body:JSON.stringify({cliente,descripcion,status:'pending'})});
-    TR.unshift(n[0]);
-    render();
-    flash();
-    setVoice('✓ Tarea creada — '+cliente+': '+descripcion,'ok');
-    document.getElementById('micBtn').classList.remove('processing');
-    // Limpiar mensaje después de 4 segundos
-    setTimeout(()=>setVoice('Toca el micrófono y dicta una tarea…',''),4000);
-  }catch(e){
-    setVoice('Error al guardar la tarea','err');
-    document.getElementById('micBtn').classList.remove('processing');
-  }
+    const n=await api('/rest/v1/tareas',{method:'POST',body:JSON.stringify({cliente:c,descripcion:d,status:'pending'})});
+    TR.unshift(n[0]);render();flash();
+    closeVoiceModal();
+    setSt('✓ Tarea guardada — '+c+': '+d,'ok');
+    setTimeout(()=>setSt('Toca el micrófono para dictar una tarea',''),4000);
+  }catch(e){document.getElementById('voiceModalMsg').textContent='Error al guardar. Intenta de nuevo.';}
 }
 
 // ── SUPABASE ──
