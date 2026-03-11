@@ -1,239 +1,227 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"/>
   <title>Tareas — Mekano</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#0F0F13;--surface:#13131A;--surface2:#16161F;--surface3:#1E1E2A;--border:#1E1E2A;--border2:#2A2A38;--text:#E8E8F0;--text2:#A0A0B8;--text3:#555568;--accent:#6366F1;--glow:rgba(99,102,241,0.3);--green:#10B981;--red:#EF4444}
-    html,body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px}
-    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--surface)}::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px}
-    #loginScreen{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.12) 0%,transparent 70%),var(--bg)}
-    .card{background:var(--surface);border:1px solid var(--border2);border-radius:16px;padding:40px 32px;width:100%;max-width:360px;text-align:center}
-    .ldot{width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 20px var(--glow);display:inline-block;margin-bottom:12px}
-    .ltitle{font-family:'DM Mono',monospace;font-size:11px;color:var(--accent);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
-    .lsub{font-size:13px;color:var(--text3);margin-bottom:28px}
-    .face-btn{width:100%;padding:14px;border-radius:10px;border:none;cursor:pointer;background:var(--accent);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;-webkit-tap-highlight-color:transparent}
-    .face-btn:hover{opacity:.88}
-    .setup-btn{width:100%;padding:12px;border-radius:10px;border:2px dashed var(--border2);cursor:pointer;background:transparent;color:var(--accent);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;transition:all .2s;margin-bottom:10px;-webkit-tap-highlight-color:transparent}
-    .setup-btn:hover{border-color:var(--accent)}
-    .divider{display:flex;align-items:center;gap:12px;margin:14px 0;color:var(--text3);font-size:12px}
-    .divider::before,.divider::after{content:'';flex:1;height:1px;background:var(--border2)}
-    .pw-input{width:100%;background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;margin-bottom:10px}
-    .pw-input:focus{border-color:var(--accent)}.pw-input::placeholder{color:var(--text3)}
-    .pw-btn{width:100%;padding:11px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
-    .pw-btn:hover{border-color:var(--accent);color:var(--text)}
-    .msg{font-size:12px;font-family:'DM Mono',monospace;margin-top:10px;min-height:18px;line-height:1.5}
-    .msg.err{color:#FCA5A5}.msg.ok{color:var(--green)}.msg.info{color:var(--text3)}
+    :root{--bg:#0F0F13;--sur:#13131A;--sur2:#16161F;--sur3:#1E1E2A;--b:#1E1E2A;--b2:#2A2A38;--tx:#E8E8F0;--tx2:#A0A0B8;--tx3:#555568;--ac:#6366F1;--glow:rgba(99,102,241,.3);--gr:#10B981;--rd:#EF4444}
+    html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px}
+    ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--sur)}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
+    #login{min-height:100vh;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at 50% 0%,rgba(99,102,241,.12),transparent 70%),var(--bg)}
+    .card{background:var(--sur);border:1px solid var(--b2);border-radius:16px;padding:40px 32px;width:100%;max-width:360px;text-align:center}
+    .ldot{width:12px;height:12px;border-radius:50%;background:var(--ac);box-shadow:0 0 20px var(--glow);display:inline-block;margin-bottom:12px}
+    .lt{font-family:'DM Mono',monospace;font-size:11px;color:var(--ac);letter-spacing:3px;text-transform:uppercase;margin-bottom:6px}
+    .ls{font-size:13px;color:var(--tx3);margin-bottom:28px}
+    .fbtn{width:100%;padding:14px;border-radius:10px;border:none;cursor:pointer;background:var(--ac);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:10px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .sbtn{width:100%;padding:12px;border-radius:10px;border:2px dashed var(--b2);cursor:pointer;background:transparent;color:var(--ac);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;margin-bottom:10px;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .div{display:flex;align-items:center;gap:12px;margin:14px 0;color:var(--tx3);font-size:12px}
+    .div::before,.div::after{content:'';flex:1;height:1px;background:var(--b2)}
+    .pi{width:100%;background:var(--sur2);border:1px solid var(--b2);color:var(--tx);border-radius:8px;padding:11px 14px;font-family:'DM Sans',sans-serif;font-size:16px;outline:none;transition:border-color .2s;margin-bottom:10px}
+    .pi:focus{border-color:var(--ac)}.pi::placeholder{color:var(--tx3)}
+    .pb{width:100%;padding:11px;border-radius:8px;border:1px solid var(--b2);background:var(--sur2);color:var(--tx2);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .pb:hover{border-color:var(--ac);color:var(--tx)}
+    .msg{font-size:12px;font-family:'DM Mono',monospace;margin-top:10px;min-height:18px;line-height:1.6;padding:0 4px}
+    .msg.e{color:#FCA5A5}.msg.ok{color:var(--gr)}.msg.i{color:var(--tx3)}
     #app{display:none}
-    .header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+    .hdr{background:var(--sur);border-bottom:1px solid var(--b);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
     .hl{display:flex;align-items:center;gap:10px}
-    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--glow);flex-shrink:0}
-    .brand{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);letter-spacing:2px;text-transform:uppercase}
-    .bsub{font-family:'DM Mono',monospace;font-size:12px;color:var(--text3)}
-    .hr{display:flex;align-items:center;gap:10px}
-    .saved{font-family:'DM Mono',monospace;font-size:12px;color:var(--green);opacity:0;transition:opacity .3s}
-    .saved.show{opacity:1}
-    .btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;-webkit-tap-highlight-color:transparent}
-    .btn:hover{opacity:.88}.btn.cancel{background:var(--surface3);color:var(--text3)}
-    .out-btn{background:none;border:1px solid var(--border2);color:var(--text3);border-radius:8px;padding:7px 12px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;transition:all .15s;-webkit-tap-highlight-color:transparent}
-    .out-btn:hover{border-color:var(--red);color:var(--red)}
-    .form-wrap{background:var(--surface);border-bottom:1px solid var(--border);padding:14px 24px;display:none}
-    .form-wrap.open{display:block}
-    .frow{display:flex;gap:10px;flex-wrap:wrap}
-    .ifield{background:var(--surface2);border:1px solid var(--border2);color:var(--text);border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;flex:1;min-width:120px}
-    .ifield:focus{border-color:var(--accent)}.ifield::placeholder{color:var(--text3)}.icli{max-width:200px;flex:0 0 200px}
-    @media(max-width:600px){.icli{max-width:100%;flex:1 1 100%}.frow{flex-direction:column}.add-btn{width:100%}}
-    .add-btn{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
-    .add-btn:disabled{background:var(--border2);color:var(--text3);cursor:not-allowed}
-    .ftabs{padding:16px 24px 0;display:flex;gap:2px;border-bottom:1px solid var(--border)}
-    .ftab{padding:8px 16px;border-radius:6px 6px 0 0;font-size:13px;cursor:pointer;transition:all .15s;color:var(--text3);border-bottom:2px solid transparent;user-select:none;-webkit-tap-highlight-color:transparent}
-    .ftab:hover{color:var(--text2)}.ftab.on{color:var(--text);font-weight:600;border-bottom-color:var(--accent);background:var(--surface2)}
-    .badge{display:inline-block;background:var(--border2);color:#666;border-radius:10px;padding:1px 7px;font-size:11px;font-family:'DM Mono',monospace;margin-left:5px}
-    .tlist{padding:12px 24px 60px}
-    .empty{text-align:center;padding:60px 20px;color:var(--text3)}
-    .eico{font-size:32px;margin-bottom:10px}.etxt{font-family:'DM Mono',monospace;font-size:13px}
-    .ti{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:8px;background:var(--surface2);border-left:3px solid var(--border2);margin-bottom:4px;transition:all .2s ease;animation:si .2s ease}
-    .ti:hover{background:var(--surface3)}.ti.done{opacity:.55;border-left-color:var(--border2)!important}
+    .dot{width:8px;height:8px;border-radius:50%;background:var(--ac);box-shadow:0 0 10px var(--glow)}
+    .br{font-family:'DM Mono',monospace;font-size:12px;color:var(--ac);letter-spacing:2px;text-transform:uppercase}
+    .bs{font-family:'DM Mono',monospace;font-size:12px;color:var(--tx3)}
+    .hr2{display:flex;align-items:center;gap:10px}
+    .sv{font-family:'DM Mono',monospace;font-size:12px;color:var(--gr);opacity:0;transition:opacity .3s}.sv.on{opacity:1}
+    .btn{background:var(--ac);color:#fff;border:none;border-radius:8px;padding:9px 18px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .btn.cx{background:var(--sur3);color:var(--tx3)}
+    .ob{background:none;border:1px solid var(--b2);color:var(--tx3);border-radius:8px;padding:7px 12px;font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+    .ob:hover{border-color:var(--rd);color:var(--rd)}
+    .fw{background:var(--sur);border-bottom:1px solid var(--b);padding:14px 24px;display:none}.fw.op{display:block}
+    .fr{display:flex;gap:10px;flex-wrap:wrap}
+    .fi{background:var(--sur2);border:1px solid var(--b2);color:var(--tx);border-radius:8px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;transition:border-color .2s;flex:1;min-width:120px}
+    .fi:focus{border-color:var(--ac)}.fi::placeholder{color:var(--tx3)}.fc{max-width:200px;flex:0 0 200px}
+    @media(max-width:600px){.fc{max-width:100%;flex:1 1 100%}.fr{flex-direction:column}.ab{width:100%}}
+    .ab{background:var(--ac);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+    .ab:disabled{background:var(--b2);color:var(--tx3);cursor:not-allowed}
+    .ft{padding:16px 24px 0;display:flex;gap:2px;border-bottom:1px solid var(--b)}
+    .tab{padding:8px 16px;border-radius:6px 6px 0 0;font-size:13px;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;user-select:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .tab.on{color:var(--tx);font-weight:600;border-bottom-color:var(--ac);background:var(--sur2)}
+    .bdg{display:inline-block;background:var(--b2);color:#666;border-radius:10px;padding:1px 7px;font-size:11px;font-family:'DM Mono',monospace;margin-left:5px}
+    .tl{padding:12px 24px 60px}
+    .em{text-align:center;padding:60px 20px;color:var(--tx3)}
+    .ei{font-size:32px;margin-bottom:10px}.et{font-family:'DM Mono',monospace;font-size:13px}
+    .ti{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:8px;background:var(--sur2);border-left:3px solid var(--b2);margin-bottom:4px;animation:si .2s ease}
+    .ti:hover{background:var(--sur3)}.ti.dn{opacity:.55;border-left-color:var(--b2)!important}
     @keyframes si{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
-    .ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--accent);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0;font-size:11px;color:#fff;-webkit-tap-highlight-color:transparent}
-    .ti.done .ck{background:var(--green);border-color:var(--green)}
-    .ctag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.3px;white-space:nowrap;flex-shrink:0}
-    .tdesc{flex:1;font-size:14px;color:var(--text);min-width:0;word-break:break-word}
-    .ti.done .tdesc{text-decoration:line-through;color:var(--text3)}
-    .tdate{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);flex-shrink:0;white-space:nowrap}
-    .del{background:none;border:none;color:var(--red);cursor:pointer;font-size:15px;padding:2px 6px;opacity:0;transition:opacity .2s;flex-shrink:0;-webkit-tap-highlight-color:transparent}
-    .ti:hover .del{opacity:1}
-    .loading{text-align:center;padding:60px;color:var(--text3);font-family:'DM Mono',monospace;font-size:13px}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}.pulse{animation:pulse 1.2s infinite}
-    .ebanner{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#FCA5A5;padding:10px 24px;font-size:13px;font-family:'DM Mono',monospace;display:none}
-    .ebanner.show{display:block}
-    @media(max-width:600px){.header{padding:12px 16px}.bsub{display:none}.tlist{padding:8px 12px 60px}.ftabs{padding:12px 12px 0}.form-wrap{padding:12px 16px}.tdate{display:none}}
+    .ck{width:22px;height:22px;border-radius:50%;border:2px solid var(--ac);background:transparent;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:11px;color:#fff;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+    .ti.dn .ck{background:var(--gr);border-color:var(--gr)}
+    .ct{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0}
+    .td{flex:1;font-size:14px;min-width:0;word-break:break-word}.ti.dn .td{text-decoration:line-through;color:var(--tx3)}
+    .dd{font-family:'DM Mono',monospace;font-size:11px;color:var(--tx3);flex-shrink:0;white-space:nowrap}
+    .dl{background:none;border:none;color:var(--rd);cursor:pointer;font-size:15px;padding:2px 6px;opacity:0;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+    .ti:hover .dl{opacity:1}
+    .ld{text-align:center;padding:60px;color:var(--tx3);font-family:'DM Mono',monospace;font-size:13px}
+    @keyframes pu{0%,100%{opacity:1}50%{opacity:.4}}.pu{animation:pu 1.2s infinite}
+    .eb{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#FCA5A5;padding:10px 24px;font-size:13px;font-family:'DM Mono',monospace;display:none}.eb.on{display:block}
+    @media(max-width:600px){.hdr{padding:12px 16px}.bs{display:none}.tl{padding:8px 12px 60px}.ft{padding:12px 12px 0}.fw{padding:12px 16px}.dd{display:none}}
   </style>
 </head>
 <body>
 
-<div id="loginScreen">
+<div id="login">
   <div class="card">
     <div class="ldot"></div>
-    <div class="ltitle">Task Board</div>
-    <div class="lsub">Mekano Consulting</div>
+    <div class="lt">Task Board</div>
+    <div class="ls">Mekano Consulting</div>
 
-    <button class="face-btn" id="faceBtn" onclick="doFaceLogin()">
+    <button class="fbtn" id="faceBtn" onclick="doFaceLogin(event)">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="M15 21h4a2 2 0 0 0 2-2v-4"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 15a3 3 0 0 0 6 0"/></svg>
       Entrar con Face ID
     </button>
 
-    <button class="setup-btn" id="setupBtn" onclick="doSetup()">
+    <button class="sbtn" id="setupBtn" onclick="doSetup(event)">
       + Registrar Face ID (primera vez)
     </button>
 
-    <div id="faceMsg" class="msg info"></div>
+    <div id="fmsg" class="msg i"></div>
 
-    <div class="divider">o usa contraseña</div>
-
-    <input class="pw-input" type="password" id="pwInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')doPwLogin()" />
-    <button class="pw-btn" onclick="doPwLogin()">Entrar con contraseña</button>
-    <div id="pwMsg" class="msg err"></div>
+    <div class="div">o usa contraseña</div>
+    <input class="pi" type="password" id="pw" placeholder="Contraseña" autocomplete="current-password" onkeydown="if(event.key==='Enter')doPw()"/>
+    <button class="pb" onclick="doPw()">Entrar con contraseña</button>
+    <div id="pmsg" class="msg e"></div>
   </div>
 </div>
 
 <div id="app">
-  <div class="header">
-    <div class="hl"><div class="dot"></div><span class="brand">Task Board</span><span class="bsub">— Mekano</span></div>
-    <div class="hr">
-      <span class="saved" id="saved">● guardado</span>
-      <button class="btn" id="togBtn" onclick="togForm()">+ Nueva tarea</button>
-      <button class="out-btn" onclick="doLogout()">salir</button>
+  <div class="hdr">
+    <div class="hl"><div class="dot"></div><span class="br">Task Board</span><span class="bs">— Mekano</span></div>
+    <div class="hr2">
+      <span class="sv" id="sv">● guardado</span>
+      <button class="btn" id="tb" onclick="togF()">+ Nueva tarea</button>
+      <button class="ob" onclick="doOut()">salir</button>
     </div>
   </div>
-  <div class="form-wrap" id="formWrap">
-    <div class="frow">
-      <input class="ifield icli" id="iCli" placeholder="Cliente" maxlength="60" />
-      <input class="ifield" id="iDesc" placeholder="Descripción de la tarea…" maxlength="300" />
-      <button class="add-btn" id="addBtn" onclick="doAdd()" disabled>Agregar ↵</button>
+  <div class="fw" id="fw">
+    <div class="fr">
+      <input class="fi fc" id="iC" placeholder="Cliente" maxlength="60"/>
+      <input class="fi" id="iD" placeholder="Descripción…" maxlength="300"/>
+      <button class="ab" id="ab" onclick="doAdd()" disabled>Agregar ↵</button>
     </div>
   </div>
-  <div class="ebanner" id="eb">⚠ Error de conexión con Supabase.</div>
-  <div class="ftabs">
-    <div class="ftab on" id="tab-all" onclick="setF('all')">Todas <span class="badge" id="c-all">0</span></div>
-    <div class="ftab" id="tab-pending" onclick="setF('pending')">Pendientes <span class="badge" id="c-pending">0</span></div>
-    <div class="ftab" id="tab-done" onclick="setF('done')">Completadas <span class="badge" id="c-done">0</span></div>
+  <div class="eb" id="eb">⚠ Error de conexión.</div>
+  <div class="ft">
+    <div class="tab on" id="t-all" onclick="setF('all')">Todas <span class="bdg" id="n-all">0</span></div>
+    <div class="tab" id="t-pending" onclick="setF('pending')">Pendientes <span class="bdg" id="n-pending">0</span></div>
+    <div class="tab" id="t-done" onclick="setF('done')">Completadas <span class="bdg" id="n-done">0</span></div>
   </div>
-  <div class="tlist" id="tlist"><div class="loading"><div class="pulse">Conectando…</div></div></div>
+  <div class="tl" id="tl"><div class="ld"><div class="pu">Conectando…</div></div></div>
 </div>
 
 <script>
 const SB='https://mptsavgmubvutjrhlwkh.supabase.co';
 const SK='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wdHNhdmdtdWJ2dXRqcmhsd2toIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNTQzMjIsImV4cCI6MjA4ODgzMDMyMn0.EL9DIx8U_isZeo7mL_BDMCS-5-Rr4JpleyGx5bQ6slA';
-const PW='mekano2025';
-const WK='wa_cred',SK2='mk_session';
+const PW='mekano2025',WK='wa_cred',SS='mk_s';
 const H={'apikey':SK,'Authorization':'Bearer '+SK,'Content-Type':'application/json','Prefer':'return=representation'};
 
-// ── AUTH ──
-function isOk(){return sessionStorage.getItem(SK2)==='1';}
-function setOk(){sessionStorage.setItem(SK2,'1');}
-function clearOk(){sessionStorage.removeItem(SK2);}
-function showApp(){document.getElementById('loginScreen').style.display='none';document.getElementById('app').style.display='block';loadTareas();}
-function showLogin(){document.getElementById('loginScreen').style.display='flex';document.getElementById('app').style.display='none';}
-function doLogout(){clearOk();showLogin();}
+function isOk(){return sessionStorage.getItem(SS)==='1';}
+function setOk(){sessionStorage.setItem(SS,'1');}
+function clearOk(){sessionStorage.removeItem(SS);}
+function showApp(){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';loadT();}
+function showLogin(){document.getElementById('login').style.display='flex';document.getElementById('app').style.display='none';}
+function doOut(){clearOk();showLogin();}
+function setMsg(t,c){const e=document.getElementById('fmsg');e.textContent=t;e.className='msg '+(c||'i');}
 
-function doPwLogin(){
-  const v=document.getElementById('pwInput').value;
-  const m=document.getElementById('pwMsg');
-  if(v===PW){m.textContent='';setOk();showApp();}
-  else{m.textContent='✕ Contraseña incorrecta';document.getElementById('pwInput').value='';}
+function doPw(){
+  const v=document.getElementById('pw').value;
+  if(v===PW){document.getElementById('pmsg').textContent='';setOk();showApp();}
+  else{document.getElementById('pmsg').textContent='✕ Contraseña incorrecta';document.getElementById('pw').value='';}
 }
 
-// ── WEBAUTHN ──
-function b64(buf){return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/+/g,'-').replace(///g,'_').replace(/=/g,'');}
-function unb64(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return Uint8Array.from(atob(s),c=>c.charCodeAt(0)).buffer;}
+function b64(b){return btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');}
+function ub64(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return Uint8Array.from(atob(s),c=>c.charCodeAt(0)).buffer;}
 
-function setMsg(txt,type){const el=document.getElementById('faceMsg');el.textContent=txt;el.className='msg '+(type||'info');}
+// IMPORTANTE: Safari iOS necesita que credentials.create/get se llame
+// inmediatamente dentro del handler onclick, sin ningún await previo.
+// Por eso generamos el challenge de forma síncrona antes de hacer await.
 
-async function doSetup(){
-  if(!window.PublicKeyCredential){setMsg('Face ID no disponible en este navegador','err');return;}
-  setMsg('Toca Face ID cuando aparezca el diálogo…','info');
-  try{
-    const cred=await navigator.credentials.create({publicKey:{
-      challenge:crypto.getRandomValues(new Uint8Array(32)),
-      rp:{name:'Tareas Mekano',id:location.hostname},
-      user:{id:crypto.getRandomValues(new Uint8Array(16)),name:'pablo',displayName:'Pablo'},
-      pubKeyCredParams:[{alg:-7,type:'public-key'},{alg:-257,type:'public-key'}],
-      authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required',residentKey:'preferred'},
-      timeout:60000
-    }});
+function doSetup(e){
+  if(e)e.preventDefault();
+  if(!window.PublicKeyCredential){setMsg('Face ID no disponible en este navegador','e');return;}
+  setMsg('Esperando Face ID…','i');
+
+  // Generación síncrona del challenge — sin awaits antes de credentials.create
+  const challenge=crypto.getRandomValues(new Uint8Array(32));
+  const userId=crypto.getRandomValues(new Uint8Array(16));
+
+  navigator.credentials.create({publicKey:{
+    challenge,
+    rp:{name:'Tareas Mekano',id:location.hostname},
+    user:{id:userId,name:'pablo',displayName:'Pablo'},
+    pubKeyCredParams:[{alg:-7,type:'public-key'},{alg:-257,type:'public-key'}],
+    authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},
+    timeout:60000
+  }}).then(cred=>{
     localStorage.setItem(WK,b64(cred.rawId));
-    setMsg('✓ Face ID registrado correctamente','ok');
+    setMsg('✓ Face ID registrado. Ya puedes entrar con el botón de arriba.','ok');
     document.getElementById('faceBtn').style.display='flex';
     document.getElementById('setupBtn').style.display='none';
-  }catch(e){
-    if(e.name==='NotAllowedError')setMsg('Cancelado. Vuelve a intentarlo.','err');
-    else setMsg('Error: '+e.message,'err');
-  }
+  }).catch(err=>{
+    if(err.name==='NotAllowedError')setMsg('Cancelado. Vuelve a intentarlo.','e');
+    else setMsg('Error ('+err.name+'): '+err.message,'e');
+  });
 }
 
-async function doFaceLogin(){
-  if(!window.PublicKeyCredential){setMsg('Face ID no disponible','err');return;}
+function doFaceLogin(e){
+  if(e)e.preventDefault();
+  if(!window.PublicKeyCredential){setMsg('Face ID no disponible','e');return;}
   const stored=localStorage.getItem(WK);
-  if(!stored){setMsg('Primero registra tu Face ID con el botón de abajo','err');return;}
-  setMsg('Esperando Face ID…','info');
-  try{
-    await navigator.credentials.get({publicKey:{
-      challenge:crypto.getRandomValues(new Uint8Array(32)),
-      rpId:location.hostname,
-      allowCredentials:[{type:'public-key',id:unb64(stored)}],
-      userVerification:'required',
-      timeout:60000
-    }});
-    setMsg('','info');
-    setOk();showApp();
-  }catch(e){
-    if(e.name==='NotAllowedError')setMsg('Face ID cancelado o no reconocido','err');
-    else setMsg('Error: '+e.message,'err');
-  }
+  if(!stored){setMsg('Primero registra tu Face ID con el botón de abajo','e');return;}
+  setMsg('Esperando Face ID…','i');
+
+  // Challenge síncrono — sin awaits antes de credentials.get
+  const challenge=crypto.getRandomValues(new Uint8Array(32));
+
+  navigator.credentials.get({publicKey:{
+    challenge,
+    rpId:location.hostname,
+    allowCredentials:[{type:'public-key',id:ub64(stored)}],
+    userVerification:'required',
+    timeout:60000
+  }}).then(()=>{
+    setMsg('','i');setOk();showApp();
+  }).catch(err=>{
+    if(err.name==='NotAllowedError')setMsg('Face ID cancelado o no reconocido','e');
+    else setMsg('Error ('+err.name+'): '+err.message,'e');
+  });
 }
 
 // ── SUPABASE ──
-let tareas=[],cf='all';
-const pal=['#6366F1','#EC4899','#14B8A6','#F97316','#8B5CF6','#EF4444','#0EA5E9','#84CC16','#F43F5E','#A78BFA'],cc={};
-const gc=c=>{if(!cc[c])cc[c]=pal[Object.keys(cc).length%pal.length];return cc[c];};
+let TR=[],CF='all';
+const PAL=['#6366F1','#EC4899','#14B8A6','#F97316','#8B5CF6','#EF4444','#0EA5E9','#84CC16','#F43F5E','#A78BFA'],CC={};
+const gc=c=>{if(!CC[c])CC[c]=PAL[Object.keys(CC).length%PAL.length];return CC[c];};
 const api=async(p,o={})=>{const r=await fetch(SB+p,{...o,headers:{...H,...(o.headers||{})}});if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json();};
-
-async function loadTareas(){try{tareas=await api('/rest/v1/tareas?order=created_at.desc');render();}catch{showEb(true);document.getElementById('tlist').innerHTML='<div class="empty"><div class="eico">⚠</div><div class="etxt">No se pudo conectar</div></div>';}}
-async function doAdd(){const c=document.getElementById('iCli').value.trim(),d=document.getElementById('iDesc').value.trim();if(!c||!d)return;const b=document.getElementById('addBtn');b.disabled=true;b.textContent='…';try{const n=await api('/rest/v1/tareas',{method:'POST',body:JSON.stringify({cliente:c,descripcion:d,status:'pending'})});tareas.unshift(n[0]);document.getElementById('iCli').value='';document.getElementById('iDesc').value='';b.textContent='Agregar ↵';togForm(false);render();flash();}catch{showEb(true);b.disabled=false;b.textContent='Agregar ↵';}}
-async function togStatus(id){const t=tareas.find(x=>x.id===id);if(!t)return;const s=t.status==='done'?'pending':'done';t.status=s;render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:s})});flash();}catch{loadTareas();}}
-async function delTask(id){tareas=tareas.filter(x=>x.id!==id);render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'DELETE'});flash();}catch{loadTareas();}}
-
-let fo=false;
-function togForm(f){fo=f!==undefined?f:!fo;document.getElementById('formWrap').classList.toggle('open',fo);const b=document.getElementById('togBtn');b.textContent=fo?'✕ cancelar':'+ Nueva tarea';b.classList.toggle('cancel',fo);if(fo)setTimeout(()=>document.getElementById('iCli').focus(),50);}
-function setF(f){cf=f;['all','pending','done'].forEach(k=>document.getElementById('tab-'+k).classList.toggle('on',k===f));render();}
-function flash(){const e=document.getElementById('saved');e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800);}
-function showEb(s){document.getElementById('eb').classList.toggle('show',s);}
-function fd(iso){if(!iso)return'';return new Date(iso).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit',year:'2-digit'});}
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-function render(){const fil=cf==='all'?tareas:tareas.filter(t=>t.status===cf);document.getElementById('c-all').textContent=tareas.length;document.getElementById('c-pending').textContent=tareas.filter(t=>t.status==='pending').length;document.getElementById('c-done').textContent=tareas.filter(t=>t.status==='done').length;const l=document.getElementById('tlist');if(!fil.length){const m={all:'Sin tareas aún — agrega una arriba',pending:'Sin tareas pendientes',done:'Sin tareas completadas'};l.innerHTML='<div class="empty"><div class="eico">◻</div><div class="etxt">'+m[cf]+'</div></div>';return;}l.innerHTML=fil.map(t=>{const co=gc(t.cliente),d=t.status==='done';return'<div class="ti '+(d?'done':'')+'" style="border-left-color:'+(d?'':co)+'">'+'<button class="ck" onclick="togStatus('+t.id+')">'+(d?'✓':'')+'</button>'+'<span class="ctag" style="background:'+co+'20;color:'+co+'">'+esc(t.cliente)+'</span>'+'<span class="tdesc">'+esc(t.descripcion)+'</span>'+'<span class="tdate">'+fd(t.created_at)+'</span>'+'<button class="del" onclick="delTask('+t.id+')">✕</button></div>';}).join('');}
-
+async function loadT(){try{TR=await api('/rest/v1/tareas?order=created_at.desc');render();}catch{showEb(1);document.getElementById('tl').innerHTML='<div class="em"><div class="ei">⚠</div><div class="et">No se pudo conectar</div></div>';}}
+async function doAdd(){const c=document.getElementById('iC').value.trim(),d=document.getElementById('iD').value.trim();if(!c||!d)return;const b=document.getElementById('ab');b.disabled=true;b.textContent='…';try{const n=await api('/rest/v1/tareas',{method:'POST',body:JSON.stringify({cliente:c,descripcion:d,status:'pending'})});TR.unshift(n[0]);document.getElementById('iC').value='';document.getElementById('iD').value='';b.textContent='Agregar ↵';togF(false);render();flash();}catch{showEb(1);b.disabled=false;b.textContent='Agregar ↵';}}
+async function togSt(id){const t=TR.find(x=>x.id===id);if(!t)return;const s=t.status==='done'?'pending':'done';t.status=s;render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:s})});flash();}catch{loadT();}}
+async function delT(id){TR=TR.filter(x=>x.id!==id);render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'DELETE'});flash();}catch{loadT();}}
+let FO=false;
+function togF(f){FO=f!==undefined?f:!FO;document.getElementById('fw').classList.toggle('op',FO);const b=document.getElementById('tb');b.textContent=FO?'✕ cancelar':'+ Nueva tarea';b.classList.toggle('cx',FO);if(FO)setTimeout(()=>document.getElementById('iC').focus(),80);}
+function setF(f){CF=f;['all','pending','done'].forEach(k=>document.getElementById('t-'+k).classList.toggle('on',k===f));render();}
+function flash(){const e=document.getElementById('sv');e.classList.add('on');setTimeout(()=>e.classList.remove('on'),1800);}
+function showEb(s){document.getElementById('eb').classList.toggle('on',!!s);}
+function fd(i){if(!i)return'';return new Date(i).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit',year:'2-digit'});}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function render(){const fil=CF==='all'?TR:TR.filter(t=>t.status===CF);document.getElementById('n-all').textContent=TR.length;document.getElementById('n-pending').textContent=TR.filter(t=>t.status==='pending').length;document.getElementById('n-done').textContent=TR.filter(t=>t.status==='done').length;const l=document.getElementById('tl');if(!fil.length){const m={all:'Sin tareas — agrega una arriba',pending:'Sin tareas pendientes',done:'Sin tareas completadas'};l.innerHTML='<div class="em"><div class="ei">◻</div><div class="et">'+m[CF]+'</div></div>';return;}l.innerHTML=fil.map(t=>{const co=gc(t.cliente),d=t.status==='done';return'<div class="ti '+(d?'dn':'')+'" style="border-left-color:'+(d?'':co)+'">'+'<button class="ck" onclick="togSt('+t.id+')">'+(d?'✓':'')+'</button>'+'<span class="ct" style="background:'+co+'20;color:'+co+'">'+esc(t.cliente)+'</span>'+'<span class="td">'+esc(t.descripcion)+'</span>'+'<span class="dd">'+fd(t.created_at)+'</span>'+'<button class="dl" onclick="delT('+t.id+')">✕</button></div>';}).join('');}
 document.addEventListener('DOMContentLoaded',()=>{
-  const wa=!!window.PublicKeyCredential;
-  const stored=localStorage.getItem(WK);
-  if(!wa){
-    document.getElementById('faceBtn').style.display='none';
-    document.getElementById('setupBtn').style.display='none';
-    setMsg('Face ID no disponible en este dispositivo. Usa la contraseña.','info');
-  } else if(stored){
-    document.getElementById('setupBtn').style.display='none';
-    setMsg('','info');
-  } else {
-    document.getElementById('faceBtn').style.display='none';
-    setMsg('Primero regístrate con el botón de abajo.','info');
-  }
-  const ic=document.getElementById('iCli'),id=document.getElementById('iDesc'),ib=document.getElementById('addBtn');
-  const ck=()=>{ib.disabled=!(ic.value.trim()&&id.value.trim());};
-  ic.addEventListener('input',ck);id.addEventListener('input',ck);
-  [ic,id].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')doAdd();}));
+  const wa=!!window.PublicKeyCredential,stored=!!localStorage.getItem(WK);
+  if(!wa){document.getElementById('faceBtn').style.display='none';document.getElementById('setupBtn').style.display='none';setMsg('Face ID no disponible aquí. Usa la contraseña.','i');}
+  else if(!stored){document.getElementById('faceBtn').style.display='none';setMsg('Primera vez: toca "Registrar Face ID" abajo.','i');}
+  else{document.getElementById('setupBtn').style.display='none';}
+  const iC=document.getElementById('iC'),iD=document.getElementById('iD'),ab=document.getElementById('ab');
+  const ck=()=>{ab.disabled=!(iC.value.trim()&&iD.value.trim());};
+  iC.addEventListener('input',ck);iD.addEventListener('input',ck);
+  [iC,iD].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')doAdd();}));
   if(isOk())showApp();else showLogin();
 });
 </script>
