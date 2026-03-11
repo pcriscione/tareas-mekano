@@ -8,26 +8,44 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg: #0F0F13; --surface: #13131A; --surface2: #16161F; --surface3: #1E1E2A; --border: #1E1E2A; --border2: #2A2A38; --text: #E8E8F0; --text2: #A0A0B8; --text3: #555568; --accent: #6366F1; --accent-glow: rgba(99,102,241,0.3); --green: #10B981; --amber: #F59E0B; --red: #EF4444; }
+    :root { --bg: #0F0F13; --surface: #13131A; --surface2: #16161F; --surface3: #1E1E2A; --border: #1E1E2A; --border2: #2A2A38; --text: #E8E8F0; --text2: #A0A0B8; --text3: #555568; --accent: #6366F1; --accent-glow: rgba(99,102,241,0.3); --green: #10B981; --red: #EF4444; }
     html, body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; min-height: 100vh; font-size: 15px; }
     ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--surface); } ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+    #loginScreen { min-height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(ellipse at 50% 0%, rgba(99,102,241,0.12) 0%, transparent 70%), var(--bg); }
+    .login-card { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; padding: 40px 36px; width: 100%; max-width: 360px; text-align: center; }
+    .login-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 20px var(--accent-glow); display: inline-block; margin-bottom: 12px; }
+    .login-title { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+    .login-sub { font-size: 13px; color: var(--text3); margin-bottom: 32px; }
+    .face-btn { width: 100%; padding: 14px; border-radius: 10px; border: none; cursor: pointer; background: var(--accent); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 12px; }
+    .face-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .divider { display: flex; align-items: center; gap: 12px; margin: 16px 0; color: var(--text3); font-size: 12px; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border2); }
+    .pw-input { width: 100%; background: var(--surface2); border: 1px solid var(--border2); color: var(--text); border-radius: 8px; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 10px; }
+    .pw-input:focus { border-color: var(--accent); } .pw-input::placeholder { color: var(--text3); }
+    .pw-btn { width: 100%; padding: 11px; border-radius: 8px; border: 1px solid var(--border2); background: var(--surface2); color: var(--text2); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; transition: all 0.15s; }
+    .pw-btn:hover { border-color: var(--accent); color: var(--text); }
+    .login-error { color: #FCA5A5; font-size: 12px; font-family: 'DM Mono', monospace; margin-top: 10px; min-height: 18px; }
+    .login-hint { color: var(--text3); font-size: 11px; font-family: 'DM Mono', monospace; margin-top: 16px; line-height: 1.6; }
+    .setup-link { color: var(--accent); font-size: 12px; cursor: pointer; margin-top: 8px; display: inline-block; text-decoration: underline; }
+    #app { display: none; }
     .header { background: var(--surface); border-bottom: 1px solid var(--border); padding: 16px 24px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
     .header-left { display: flex; align-items: center; gap: 10px; }
     .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent-glow); flex-shrink: 0; }
     .brand { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; }
     .brand-sub { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--text3); }
     .header-right { display: flex; align-items: center; gap: 10px; }
-    .saved-indicator { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--green); opacity: 0; transition: opacity 0.3s; }
-    .saved-indicator.show { opacity: 1; }
+    .saved-indicator { font-family: 'DM Mono', monospace; font-size: 12px; color: var(--green); opacity: 0; transition: opacity 0.3s; } .saved-indicator.show { opacity: 1; }
     .btn-primary { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 9px 18px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s ease; white-space: nowrap; }
     .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); } .btn-primary.cancel { background: var(--surface3); color: var(--text3); }
+    .btn-logout { background: none; border: 1px solid var(--border2); color: var(--text3); border-radius: 8px; padding: 7px 12px; font-family: 'DM Mono', monospace; font-size: 11px; cursor: pointer; transition: all 0.15s; }
+    .btn-logout:hover { border-color: var(--red); color: var(--red); }
     .add-form { background: var(--surface); border-bottom: 1px solid var(--border); padding: 14px 24px; display: none; } .add-form.open { display: block; }
     .form-row { display: flex; gap: 10px; flex-wrap: wrap; }
     .input-field { background: var(--surface2); border: 1px solid var(--border2); color: var(--text); border-radius: 8px; padding: 10px 14px; font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; flex: 1; min-width: 120px; }
     .input-field:focus { border-color: var(--accent); } .input-field::placeholder { color: var(--text3); } .input-cliente { max-width: 200px; flex: 0 0 200px; }
     @media (max-width: 600px) { .input-cliente { max-width: 100%; flex: 1 1 100%; } .form-row { flex-direction: column; } .btn-add { width: 100%; } }
     .btn-add { background: var(--accent); color: #fff; border: none; border-radius: 8px; padding: 10px 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; flex-shrink: 0; }
-    .btn-add:hover { opacity: 0.88; } .btn-add:disabled { background: var(--border2); color: var(--text3); cursor: not-allowed; opacity: 1; }
+    .btn-add:disabled { background: var(--border2); color: var(--text3); cursor: not-allowed; }
     .filters { padding: 16px 24px 0; display: flex; gap: 2px; border-bottom: 1px solid var(--border); }
     .filter-tab { padding: 8px 16px; border-radius: 6px 6px 0 0; font-size: 13px; cursor: pointer; transition: all 0.15s; color: var(--text3); border-bottom: 2px solid transparent; user-select: none; }
     .filter-tab:hover { color: var(--text2); } .filter-tab.active { color: var(--text); font-weight: 600; border-bottom-color: var(--accent); background: var(--surface2); }
@@ -38,11 +56,11 @@
     .task-item:hover { background: var(--surface3); } .task-item.done { opacity: 0.55; border-left-color: var(--border2) !important; }
     @keyframes slideIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
     .check-btn { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--accent); background: transparent; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; font-size: 11px; color: #fff; }
-    .check-btn:hover { transform: scale(1.1); } .task-item.done .check-btn { background: var(--green); border-color: var(--green); }
+    .task-item.done .check-btn { background: var(--green); border-color: var(--green); }
     .client-tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.3px; white-space: nowrap; flex-shrink: 0; }
     .task-desc { flex: 1; font-size: 14px; color: var(--text); min-width: 0; word-break: break-word; } .task-item.done .task-desc { text-decoration: line-through; color: var(--text3); }
     .task-date { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--text3); flex-shrink: 0; white-space: nowrap; }
-    .del-btn { background: none; border: none; color: var(--red); cursor: pointer; font-size: 15px; padding: 2px 6px; border-radius: 4px; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; }
+    .del-btn { background: none; border: none; color: var(--red); cursor: pointer; font-size: 15px; padding: 2px 6px; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; }
     .task-item:hover .del-btn { opacity: 1; }
     .loading { text-align: center; padding: 60px; color: var(--text3); font-family: 'DM Mono', monospace; font-size: 13px; }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} } .pulse { animation: pulse 1.2s infinite; }
@@ -51,44 +69,85 @@
   </style>
 </head>
 <body>
-<div class="header">
-  <div class="header-left"><div class="dot"></div><span class="brand">Task Board</span><span class="brand-sub">— Mekano</span></div>
-  <div class="header-right"><span class="saved-indicator" id="savedIndicator">● guardado</span><button class="btn-primary" id="toggleFormBtn" onclick="toggleForm()">+ Nueva tarea</button></div>
-</div>
-<div class="add-form" id="addForm">
-  <div class="form-row">
-    <input class="input-field input-cliente" id="inputCliente" placeholder="Cliente" maxlength="60" />
-    <input class="input-field" id="inputDesc" placeholder="Descripción de la tarea…" maxlength="300" />
-    <button class="btn-add" id="btnAdd" onclick="addTarea()" disabled>Agregar ↵</button>
+<div id="loginScreen">
+  <div class="login-card">
+    <div class="login-dot"></div>
+    <div class="login-title">Task Board</div>
+    <div class="login-sub">Mekano Consulting</div>
+    <button class="face-btn" id="faceBtn" onclick="loginWithFaceID()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3H5a2 2 0 0 0-2 2v4"/><path d="M15 3h4a2 2 0 0 1 2 2v4"/><path d="M9 21H5a2 2 0 0 1-2-2v-4"/><path d="M15 21h4a2 2 0 0 0 2-2v-4"/><circle cx="9" cy="10" r="1"/><circle cx="15" cy="10" r="1"/><path d="M9 15a3 3 0 0 0 6 0"/></svg>
+      Entrar con Face ID
+    </button>
+    <div id="faceStatus" class="login-error"></div>
+    <span class="setup-link" id="setupLink" onclick="setupFaceID()" style="display:none">Registrar Face ID por primera vez →</span>
+    <div class="divider">o</div>
+    <input class="pw-input" type="password" id="pwInput" placeholder="Contraseña" onkeydown="if(event.key==='Enter')loginWithPassword()" />
+    <button class="pw-btn" onclick="loginWithPassword()">Entrar con contraseña</button>
+    <div id="pwError" class="login-error"></div>
+    <div class="login-hint" id="loginHint"></div>
   </div>
 </div>
-<div class="error-banner" id="errorBanner">⚠ Error de conexión con Supabase.</div>
-<div class="filters">
-  <div class="filter-tab active" id="tab-all" onclick="setFilter('all')">Todas <span class="badge" id="count-all">0</span></div>
-  <div class="filter-tab" id="tab-pending" onclick="setFilter('pending')">Pendientes <span class="badge" id="count-pending">0</span></div>
-  <div class="filter-tab" id="tab-done" onclick="setFilter('done')">Completadas <span class="badge" id="count-done">0</span></div>
+<div id="app">
+  <div class="header">
+    <div class="header-left"><div class="dot"></div><span class="brand">Task Board</span><span class="brand-sub">— Mekano</span></div>
+    <div class="header-right">
+      <span class="saved-indicator" id="savedIndicator">● guardado</span>
+      <button class="btn-primary" id="toggleFormBtn" onclick="toggleForm()">+ Nueva tarea</button>
+      <button class="btn-logout" onclick="logout()">salir</button>
+    </div>
+  </div>
+  <div class="add-form" id="addForm">
+    <div class="form-row">
+      <input class="input-field input-cliente" id="inputCliente" placeholder="Cliente" maxlength="60" />
+      <input class="input-field" id="inputDesc" placeholder="Descripción de la tarea…" maxlength="300" />
+      <button class="btn-add" id="btnAdd" onclick="addTarea()" disabled>Agregar ↵</button>
+    </div>
+  </div>
+  <div class="error-banner" id="errorBanner">⚠ Error de conexión con Supabase.</div>
+  <div class="filters">
+    <div class="filter-tab active" id="tab-all" onclick="setFilter('all')">Todas <span class="badge" id="count-all">0</span></div>
+    <div class="filter-tab" id="tab-pending" onclick="setFilter('pending')">Pendientes <span class="badge" id="count-pending">0</span></div>
+    <div class="filter-tab" id="tab-done" onclick="setFilter('done')">Completadas <span class="badge" id="count-done">0</span></div>
+  </div>
+  <div class="task-list" id="taskList"><div class="loading"><div class="pulse">Conectando…</div></div></div>
 </div>
-<div class="task-list" id="taskList"><div class="loading"><div class="pulse">Conectando…</div></div></div>
 <script>
-  const SB_URL='https://mptsavgmubvutjrhlwkh.supabase.co',SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wdHNhdmdtdWJ2dXRqcmhsd2toIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNTQzMjIsImV4cCI6MjA4ODgzMDMyMn0.EL9DIx8U_isZeo7mL_BDMCS-5-Rr4JpleyGx5bQ6slA';
-  const H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
-  let tareas=[],cf='all';
-  const pal=['#6366F1','#EC4899','#14B8A6','#F97316','#8B5CF6','#EF4444','#0EA5E9','#84CC16','#F43F5E','#A78BFA'],cc={};
-  const gc=c=>{if(!cc[c])cc[c]=pal[Object.keys(cc).length%pal.length];return cc[c];};
-  const api=async(path,opts={})=>{const r=await fetch(SB_URL+path,{...opts,headers:{...H,...(opts.headers||{})}});if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json();};
-  async function fetchTareas(){try{tareas=await api('/rest/v1/tareas?order=created_at.desc');render();}catch(e){showError(true);document.getElementById('taskList').innerHTML='<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">No se pudo conectar</div></div>';}}
-  async function addTarea(){const c=document.getElementById('inputCliente').value.trim(),d=document.getElementById('inputDesc').value.trim();if(!c||!d)return;const btn=document.getElementById('btnAdd');btn.disabled=true;btn.textContent='…';try{const n=await api('/rest/v1/tareas',{method:'POST',body:JSON.stringify({cliente:c,descripcion:d,status:'pending'})});tareas.unshift(n[0]);document.getElementById('inputCliente').value='';document.getElementById('inputDesc').value='';btn.textContent='Agregar ↵';toggleForm(false);render();flash();}catch(e){showError(true);btn.disabled=false;btn.textContent='Agregar ↵';}}
-  async function toggleStatus(id){const t=tareas.find(x=>x.id===id);if(!t)return;const s=t.status==='done'?'pending':'done';t.status=s;render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:s})});flash();}catch{fetchTareas();}}
-  async function removeTask(id){tareas=tareas.filter(x=>x.id!==id);render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'DELETE'});flash();}catch{fetchTareas();}}
-  let fo=false;
-  function toggleForm(f){fo=f!==undefined?f:!fo;document.getElementById('addForm').classList.toggle('open',fo);const b=document.getElementById('toggleFormBtn');b.textContent=fo?'✕ cancelar':'+ Nueva tarea';b.classList.toggle('cancel',fo);if(fo)setTimeout(()=>document.getElementById('inputCliente').focus(),50);}
-  function setFilter(f){cf=f;['all','pending','done'].forEach(k=>document.getElementById('tab-'+k).classList.toggle('active',k===f));render();}
-  function flash(){const e=document.getElementById('savedIndicator');e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800);}
-  function showError(s){document.getElementById('errorBanner').classList.toggle('show',s);}
-  function fd(iso){if(!iso)return'';return new Date(iso).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit',year:'2-digit'});}
-  function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
-  function render(){const fil=cf==='all'?tareas:tareas.filter(t=>t.status===cf);document.getElementById('count-all').textContent=tareas.length;document.getElementById('count-pending').textContent=tareas.filter(t=>t.status==='pending').length;document.getElementById('count-done').textContent=tareas.filter(t=>t.status==='done').length;const l=document.getElementById('taskList');if(!fil.length){const m={all:'Sin tareas aún',pending:'Sin tareas pendientes',done:'Sin tareas completadas'};l.innerHTML='<div class="empty-state"><div class="empty-icon">◻</div><div class="empty-text">'+m[cf]+'</div></div>';return;}l.innerHTML=fil.map(t=>{const co=gc(t.cliente),d=t.status==='done';return'<div class="task-item '+(d?'done':'')+'" style="border-left-color:'+(d?'':co)+'">'+'<button class="check-btn" onclick="toggleStatus('+t.id+')">'+(d?'✓':'')+'</button>'+'<span class="client-tag" style="background:'+co+'20;color:'+co+'">'+esc(t.cliente)+'</span>'+'<span class="task-desc">'+esc(t.descripcion)+'</span>'+'<span class="task-date">'+fd(t.created_at)+'</span>'+'<button class="del-btn" onclick="removeTask('+t.id+')">✕</button></div>';}).join('');}
-  document.addEventListener('DOMContentLoaded',()=>{const c=document.getElementById('inputCliente'),d=document.getElementById('inputDesc'),b=document.getElementById('btnAdd');const ck=()=>{b.disabled=!(c.value.trim()&&d.value.trim());};c.addEventListener('input',ck);d.addEventListener('input',ck);[c,d].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')addTarea();}));fetchTareas();});
+const SB_URL='https://mptsavgmubvutjrhlwkh.supabase.co';
+const SB_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1wdHNhdmdtdWJ2dXRqcmhsd2toIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMyNTQzMjIsImV4cCI6MjA4ODgzMDMyMn0.EL9DIx8U_isZeo7mL_BDMCS-5-Rr4JpleyGx5bQ6slA';
+const APP_PASSWORD='mekano2025';
+const RP_NAME='Tareas Mekano',RP_ID=location.hostname,WA_KEY='webauthn_credential_id',SESSION_KEY='mekano_session';
+const H={'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+function isLoggedIn(){return sessionStorage.getItem(SESSION_KEY)==='ok';}
+function setSession(){sessionStorage.setItem(SESSION_KEY,'ok');}
+function clearSession(){sessionStorage.removeItem(SESSION_KEY);}
+function showApp(){document.getElementById('loginScreen').style.display='none';document.getElementById('app').style.display='block';fetchTareas();}
+function showLogin(){document.getElementById('loginScreen').style.display='flex';document.getElementById('app').style.display='none';}
+function logout(){clearSession();showLogin();}
+function loginWithPassword(){const v=document.getElementById('pwInput').value;if(v===APP_PASSWORD){document.getElementById('pwError').textContent='';setSession();showApp();}else{document.getElementById('pwError').textContent='✕ Contraseña incorrecta';document.getElementById('pwInput').value='';document.getElementById('pwInput').focus();}}
+function b64url(buf){return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/+/g,'-').replace(///g,'_').replace(/=/g,'');}
+function b64urlDecode(str){str=str.replace(/-/g,'+').replace(/_/g,'/');while(str.length%4)str+='=';return Uint8Array.from(atob(str),c=>c.charCodeAt(0)).buffer;}
+function hasFaceID(){return!!localStorage.getItem(WA_KEY);}
+async function setupFaceID(){const s=document.getElementById('faceStatus');s.style.color='#A0A0B8';s.textContent='Preparando registro…';try{const ch=crypto.getRandomValues(new Uint8Array(32)),uid=crypto.getRandomValues(new Uint8Array(16));const c=await navigator.credentials.create({publicKey:{challenge:ch,rp:{name:RP_NAME,id:RP_ID},user:{id:uid,name:'pablo@mekano',displayName:'Pablo'},pubKeyCredParams:[{alg:-7,type:'public-key'},{alg:-257,type:'public-key'}],authenticatorSelection:{authenticatorAttachment:'platform',userVerification:'required'},timeout:60000}});localStorage.setItem(WA_KEY,b64url(c.rawId));s.style.color='#10B981';s.textContent='✓ Face ID registrado. Ahora puedes usarlo para entrar.';document.getElementById('setupLink').style.display='none';document.getElementById('faceBtn').style.display='flex';}catch(e){s.style.color='#FCA5A5';s.textContent='Error: '+e.message;}}
+async function loginWithFaceID(){const s=document.getElementById('faceStatus');if(!hasFaceID()){s.style.color='#FCA5A5';s.textContent='Primero debes registrar tu Face ID.';document.getElementById('setupLink').style.display='inline-block';return;}s.style.color='#A0A0B8';s.textContent='Esperando Face ID…';try{const ch=crypto.getRandomValues(new Uint8Array(32)),cid=b64urlDecode(localStorage.getItem(WA_KEY));await navigator.credentials.get({publicKey:{challenge:ch,rpId:RP_ID,allowCredentials:[{type:'public-key',id:cid}],userVerification:'required',timeout:60000}});s.textContent='';setSession();showApp();}catch(e){s.style.color='#FCA5A5';s.textContent=e.name==='NotAllowedError'?'✕ Face ID cancelado':'✕ Error: '+e.message;}}
+let tareas=[],cf='all';
+const pal=['#6366F1','#EC4899','#14B8A6','#F97316','#8B5CF6','#EF4444','#0EA5E9','#84CC16','#F43F5E','#A78BFA'],cc={};
+const gc=c=>{if(!cc[c])cc[c]=pal[Object.keys(cc).length%pal.length];return cc[c];};
+const api=async(path,opts={})=>{const r=await fetch(SB_URL+path,{...opts,headers:{...H,...(opts.headers||{})}});if(!r.ok)throw new Error(await r.text());return r.status===204?null:r.json();};
+async function fetchTareas(){try{tareas=await api('/rest/v1/tareas?order=created_at.desc');render();}catch(e){showError(true);document.getElementById('taskList').innerHTML='<div class="empty-state"><div class="empty-icon">⚠</div><div class="empty-text">No se pudo conectar</div></div>';}}
+async function addTarea(){const c=document.getElementById('inputCliente').value.trim(),d=document.getElementById('inputDesc').value.trim();if(!c||!d)return;const btn=document.getElementById('btnAdd');btn.disabled=true;btn.textContent='…';try{const n=await api('/rest/v1/tareas',{method:'POST',body:JSON.stringify({cliente:c,descripcion:d,status:'pending'})});tareas.unshift(n[0]);document.getElementById('inputCliente').value='';document.getElementById('inputDesc').value='';btn.textContent='Agregar ↵';toggleForm(false);render();flash();}catch(e){showError(true);btn.disabled=false;btn.textContent='Agregar ↵';}}
+async function toggleStatus(id){const t=tareas.find(x=>x.id===id);if(!t)return;const s=t.status==='done'?'pending':'done';t.status=s;render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'PATCH',body:JSON.stringify({status:s})});flash();}catch{fetchTareas();}}
+async function removeTask(id){tareas=tareas.filter(x=>x.id!==id);render();try{await api('/rest/v1/tareas?id=eq.'+id,{method:'DELETE'});flash();}catch{fetchTareas();}}
+let fo=false;
+function toggleForm(f){fo=f!==undefined?f:!fo;document.getElementById('addForm').classList.toggle('open',fo);const b=document.getElementById('toggleFormBtn');b.textContent=fo?'✕ cancelar':'+ Nueva tarea';b.classList.toggle('cancel',fo);if(fo)setTimeout(()=>document.getElementById('inputCliente').focus(),50);}
+function setFilter(f){cf=f;['all','pending','done'].forEach(k=>document.getElementById('tab-'+k).classList.toggle('active',k===f));render();}
+function flash(){const e=document.getElementById('savedIndicator');e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800);}
+function showError(s){document.getElementById('errorBanner').classList.toggle('show',s);}
+function fd(iso){if(!iso)return'';return new Date(iso).toLocaleDateString('es-CL',{day:'2-digit',month:'2-digit',year:'2-digit'});}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function render(){const fil=cf==='all'?tareas:tareas.filter(t=>t.status===cf);document.getElementById('count-all').textContent=tareas.length;document.getElementById('count-pending').textContent=tareas.filter(t=>t.status==='pending').length;document.getElementById('count-done').textContent=tareas.filter(t=>t.status==='done').length;const l=document.getElementById('taskList');if(!fil.length){const m={all:'Sin tareas aún — agrega una arriba',pending:'Sin tareas pendientes',done:'Sin tareas completadas'};l.innerHTML='<div class="empty-state"><div class="empty-icon">◻</div><div class="empty-text">'+m[cf]+'</div></div>';return;}l.innerHTML=fil.map(t=>{const co=gc(t.cliente),d=t.status==='done';return'<div class="task-item '+(d?'done':'')+'" style="border-left-color:'+(d?'':co)+'">'+'<button class="check-btn" onclick="toggleStatus('+t.id+')">'+(d?'✓':'')+'</button>'+'<span class="client-tag" style="background:'+co+'20;color:'+co+'">'+esc(t.cliente)+'</span>'+'<span class="task-desc">'+esc(t.descripcion)+'</span>'+'<span class="task-date">'+fd(t.created_at)+'</span>'+'<button class="del-btn" onclick="removeTask('+t.id+')">✕</button></div>';}).join('');}
+document.addEventListener('DOMContentLoaded',()=>{if(!window.PublicKeyCredential){document.getElementById('faceBtn').style.display='none';document.getElementById('loginHint').textContent='Face ID no disponible en este dispositivo. Usa la contraseña.';}else if(!hasFaceID()){document.getElementById('faceBtn').style.display='none';document.getElementById('setupLink').style.display='inline-block';document.getElementById('loginHint').textContent='Primera vez: registra tu Face ID arriba, o entra con contraseña.';}
+const cliente=document.getElementById('inputCliente'),desc=document.getElementById('inputDesc'),btn=document.getElementById('btnAdd');const ck=()=>{btn.disabled=!(cliente.value.trim()&&desc.value.trim());};cliente.addEventListener('input',ck);desc.addEventListener('input',ck);[cliente,desc].forEach(el=>el.addEventListener('keydown',e=>{if(e.key==='Enter')addTarea();}));
+if(isLoggedIn())showApp();else showLogin();});
 </script>
 </body>
 </html>
