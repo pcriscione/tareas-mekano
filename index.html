@@ -7,7 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#0F0F13;--sur:#13131A;--sur2:#16161F;--sur3:#1E1E2A;--b:#1E1E2A;--b2:#2A2A38;--tx:#E8E8F0;--tx2:#A0A0B8;--tx3:#555568;--ac:#6366F1;--glow:rgba(99,102,241,.3);--gr:#10B981;--rd:#EF4444}
+    :root{--bg:#0F0F13;--sur:#13131A;--surh2:#16161F;--sur3:#1E1E2A;--b:#1E1E2A;--b2:#2A2A38;--tx:#E8E8F0;--tx2:#A0A0B8;--tx3:#555568;--ac:#6366F1;--glow:rgba(99,102,241,.3);--gr:#10B981;--rd:#EF4444}
     html,body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;font-size:15px}
     ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:var(--sur)}::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
     /* LOGIN */
@@ -272,7 +272,8 @@ function render(){
     groups[k].push(t);
   });
   // Ordenar grupos: más tareas primero
-  const sorted=Object.entries(groups).sort((a,b)=>b[1].length-a[1].length);
+  //const sorted=Object.entries(groups).sort((a,b)=>b[1].length-a[1].length);
+  const sorted=Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0],'es'));
   l.innerHTML=sorted.map(([cliente,tasks])=>{
     const co=gc(cliente);
     const header='<div class="client-header">'
